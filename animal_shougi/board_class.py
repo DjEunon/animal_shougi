@@ -91,12 +91,17 @@ def elephant_next_position(base_position,player):
         return position_list
 
 def giraffe_next_position(base_position,player):
-    position_list=lion_next_position(base_position,player)
-    for x in elephant_next_position(base_position,player):
-        position_list.remove(x)
+    if base_position_alf=="A"or base_position_alf=="B" or base_position_alf=="C":
+        position_list=lion_next_position(base_position,player)
+        for x in elephant_next_position(base_position,player):
+            position_list.remove(x)
+        return position_list
+     elif base_position_alf=="D" or base_position=="E":
+        position_list=all_position_list()
     return position_list
 
 all_position_list=[]
+
 def all_position(args):
     if len(all_position_list)==0:
         temp_list=["A","B","C"]
