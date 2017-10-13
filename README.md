@@ -12,6 +12,5 @@
 coming soon...
 
 ## Infomation
-auther:			Uno
-
-github url:		https://github.com/DjEunon/animal_shougi
+auther:Uno  
+github url:https://github.com/DjEunon/animal_shougi
