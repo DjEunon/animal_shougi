@@ -31,6 +31,9 @@ class board_class():
     def get_next_board(self,turn):
         pass
 
+#plan to Loop Unwinding
+#ループ展開したほうが絶対早いことに気づいてしまった
+ 
 def lion_next_position(base_position,player):
     position_list=[]    
     alf_list=[]
@@ -65,6 +68,10 @@ def lion_next_position(base_position,player):
     
     position_list.sort()
     return position_list
+
+#plan to Loop Unwinding
+#ループ展開したほうが絶対早いことに気づいてしまった
+ 
 
 def elephant_next_position(base_position,player):
     position_list=[]    
