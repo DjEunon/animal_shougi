@@ -70,7 +70,7 @@ def lion_next_position(base_position,player):
     return position_list
 
 #plan to Loop Unwinding
-#ループ展開したほうが絶対早いことに気づいてしまった
+#ループ展開したほうが絶対早いことに気づいてしまった。おとなしく書き換えることにする
  
 
 def elephant_next_position(base_position,player):
