@@ -118,4 +118,8 @@ def all_position(args):
     return all_position_lis
 
 #board_class("A1 g2, B1 l2, C1 e2, A2 --, B2 c2, C2 --, A3 --, B3 c1, C3 --, A4 e1, B4 l1, C4 g1,")
-print(giraffe_next_position("B2","Player1"))
+def witch_frame(frame):
+    if frame[-1:]==1:
+        return "Player1"
+    else:
+        return "Player2"
