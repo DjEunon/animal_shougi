@@ -112,7 +112,7 @@ def all_position(args):
                 all_position_list.append(i+str(j))
     return all_position_lis
 
-se=socketClient.soketClient("10.2.75.151")
+se=socketClient.soketClient("localhost")
 
 board_all_list=[]
 se.game_connect();
@@ -120,12 +120,24 @@ print(se.get_whoami())
 print(se.myturn_now())
 while True:
     if True:
+
         if se.myturn_now:
            bo=board_class.board_class(se.send_command("board"))
           
            board_all_list.append(bo.get_board_dictionary())
            cha=str(random.choice('ABC'))+str(random.choice('1234'))
            cho=board_all_list[-1][cha]
+          
+           check_lion=board_all_list[-1].values
+           aaa=False
+           for x in ["A","B","C"]:
+               for y in ["1","2","3","4"]:
+                   if board_all_list[-1][x+y]=="l"+se.get_whoami()[-1]:
+                        aaa=True   
+
+           if aaa==False:               
+               print("反則検知（多分・・・）")
+               input()
            #print(witch_frame(cho))
            #print(se.get_whoami())
            if witch_frame(cho)==se.get_whoami():

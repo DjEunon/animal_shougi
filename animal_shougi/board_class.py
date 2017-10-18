@@ -30,6 +30,7 @@ class board_class():
     def get_next_board(self,turn):
         pass
 
+
 #plan to Loop Unwinding
 #ループ展開したほうが絶対早いことに気づいてしまった
  
