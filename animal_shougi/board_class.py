@@ -5,11 +5,13 @@ class board_class():
     """description of class"""
     board_origin=""
     board_dictionary={}
-    def __init__(self,board_origin):
+    board_turn=""
+    def __init__(self,board_origin,turn):
         if isinstance(board_origin,str):
             self.str2dic(board_origin)
         elif isinstance(board_origin,dictionary):
             self.board_dictionary=board_origin
+
 
     def str2dic(self,string_board):
         self.board_origin=string_board
@@ -30,6 +32,22 @@ class board_class():
     def get_next_board(self,turn):
         pass
 
+
+    def de_nanon(self,d):
+        be=d[0:1]
+        if be=="D" or be=="E":
+            return True
+        else:
+            return False
+
+    def d_nanon(self,d):
+        be=d[0:1]
+        if be=="D":
+            return True
+        else:
+            return False
+    def exchange_format(self):
+        pass
 
 #plan to Loop Unwinding
 #ループ展開したほうが絶対早いことに気づいてしまった
@@ -116,10 +134,3 @@ class board_class():
 #            for j in range(1,5):
 #                all_position_list.append(i+str(j))
 #    return all_position_lis
-
-##board_class("A1 g2, B1 l2, C1 e2, A2 --, B2 c2, C2 --, A3 --, B3 c1, C3 --, A4 e1, B4 l1, C4 g1,")
-#def witch_frame(frame):
-#    if frame[-1:]==1:
-#        return "Player1"
-#    else:
-#        return "Player2"

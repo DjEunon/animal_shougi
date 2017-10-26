@@ -18,6 +18,9 @@ import re
 import socketClient
 import checker
 import board_class
+import post_client
+from post_client import *
+import time
 
 
 def get_f(flame):
@@ -116,49 +119,51 @@ se=socketClient.soketClient("localhost")
 
 board_all_list=[]
 se.game_connect();
-print(se.get_whoami())
-print(se.myturn_now())
 while True:
-    if True:
+    if se.myturn_now():
+        #print(se.send_command("board"))
+        se.send_command(post_send_localserver(se.send_command("board"),se.get_whoami()))
+    #if True:
 
-        if se.myturn_now:
-           bo=board_class.board_class(se.send_command("board"))
-          
-           board_all_list.append(bo.get_board_dictionary())
-           cha=str(random.choice('ABC'))+str(random.choice('1234'))
-           cho=board_all_list[-1][cha]
-          
-           check_lion=board_all_list[-1].values
-           aaa=False
-           for x in ["A","B","C"]:
-               for y in ["1","2","3","4"]:
-                   if board_all_list[-1][x+y]=="l"+se.get_whoami()[-1]:
-                        aaa=True   
 
-           if aaa==False:               
-               print("反則検知（多分・・・）")
-               input()
-           #print(witch_frame(cho))
-           #print(se.get_whoami())
-           if witch_frame(cho)==se.get_whoami():
+    #    if se.myturn_now:
+    #       bo=board_class.board_class(se.send_command("board"))
+          
+    #       board_all_list.append(bo.get_board_dictionary())
+    #       cha=str(random.choice('ABC'))+str(random.choice('1234'))
+    #       cho=board_all_list[-1][cha]
+          
+    #       check_lion=board_all_list[-1].values
+    #       aaa=False
+    #       for x in ["A","B","C"]:
+    #           for y in ["1","2","3","4"]:
+    #               if board_all_list[-1][x+y]=="l"+se.get_whoami()[-1]:
+    #                    aaa=True   
+
+    #       if aaa==False:               
+    #           print("反則検知（多分・・・）")
+    #           input()
+    #       #print(witch_frame(cho))
+    #       #print(se.get_whoami())
+    #       if witch_frame(cho)==se.get_whoami():
                 
-                if get_f(cho)=="l":
-                        a=[]
-                        a=lion_next_position(cha,se.get_whoami())
-                        random.shuffle(a)
-                        se.send_command("mv "+cha+" "+a[0])  
-                elif get_f(cho)=="g":
-                        a=[]
-                        a=giraffe_next_position(cha,se.get_whoami())
-                        random.shuffle(a)
-                        se.send_command("mv "+cha+" "+a[0])
-                elif get_f(cho)=="e":
-                        a=[]
-                        a=elephant_next_position(cha,se.get_whoami())
-                        random.shuffle(a)
-                        se.send_command("mv "+cha+" "+a[0])
-        else:
-            pass
+    #            if get_f(cho)=="l":
+    #                    a=[]
+    #                    a=lion_next_position(cha,se.get_whoami())
+    #                    random.shuffle(a)
+    #                    se.send_command("mv "+cha+" "+a[0])  
+    #            elif get_f(cho)=="g":
+    #                    a=[]
+    #                    a=giraffe_next_position(cha,se.get_whoami())
+    #                    random.shuffle(a)
+    #                    se.send_command("mv "+cha+" "+a[0])
+    #            elif get_f(cho)=="e":
+    #                    a=[]
+    #                    a=elephant_next_position(cha,se.get_whoami())
+    #                    random.shuffle(a)
+    #                    se.send_command("mv "+cha+" "+a[0])
+    #    else:
+    #        pass
 
 
 

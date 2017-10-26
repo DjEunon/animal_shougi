@@ -11,15 +11,13 @@ class soketClient:
         def game_connect(self):
             self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.s.connect((self.serverName, serverPort))
-            print(self.s.recv(BUFSIZE).rstrip().decode())
+            self.s.recv(BUFSIZE).rstrip().decode()
 
         def send_command(self,command):
             if re.match(r"^q\s*$", command):
                 return self.game_end()
-           # print("send:"+command)
             self.s.send((command + "\n").encode())
             msg = self.s.recv(BUFSIZE)
-            #print(msg)
             msg = msg.rstrip()
             return msg.decode()
 
@@ -38,3 +36,9 @@ class soketClient:
             print("bye")
             self.s.close()
             return "game_end"
+        
+        def board(self):
+            return self.send_command("board")
+
+        def mv(self,first,second):
+            return self.send_command("mv "+str(first)+" "+str(second))
