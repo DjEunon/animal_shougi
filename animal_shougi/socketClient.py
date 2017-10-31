@@ -42,3 +42,4 @@ class soketClient:
 
         def mv(self,first,second):
             return self.send_command("mv "+str(first)+" "+str(second))
+        #"A1 --, B1 --, C1 --, A2 l2, B2 e2, C2 --, A3 --, B3 --, C3 --, A4 --, B4 l1, C4 g1,D1 c1,D2 g1,E1 c2,E2 e2","Player1"
