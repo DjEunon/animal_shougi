@@ -5,6 +5,7 @@ class board_class():
     """description of class"""
     board_origin=""
     board_dictionary={}
+    all_position_list=[]
     board_turn=""
     def __init__(self,board_origin,turn):
         if isinstance(board_origin,str):
@@ -23,6 +24,8 @@ class board_class():
             val=x[-2:]
             if key!='' and val!='':
                 self.board_dictionary[key]=val
+        return None
+    
     def get_board_origin(self):
         return self.board_origin
 
@@ -50,7 +53,7 @@ class board_class():
     def exchange_format(self):
         pass
 
-    def __lion_next_position(self,base_position,player):
+    def __lion_next_position(self,base_position):
         position_list=[]    
         alf_list=[]
         num_list=[]
@@ -86,7 +89,7 @@ class board_class():
         return position_list
 
 
-    def __elephant_next_position(self,base_position,player):
+    def __elephant_next_position(self,base_position):
         position_list=[]    
         alf_list=[]
         num_list=[]
@@ -108,7 +111,7 @@ class board_class():
                 for j in num_list:
                      position_list.append(i+str(j))
         elif base_position_alf=="D" or base_position=="E":
-        position_list=__all_position()
+            position_list=__all_position()
         try:
             position_list.remove(base_position)    
         except :
@@ -116,17 +119,17 @@ class board_class():
         position_list.sort()
         return position_list
     
-    def __giraffe_next_position(self,base_position,player):
+    def __giraffe_next_position(self,base_position):
         if base_position_alf=="A"or base_position_alf=="B" or base_position_alf=="C":
             position_list=__lion_next_position(base_position,player)
             for x in __elephant_next_position(base_position,player):
                 position_list.remove(x)
             return position_list
-         elif base_position_alf=="D" or base_position=="E":
+        elif base_position_alf=="D" or base_position=="E":
             position_list=__all_position()
         return position_list
 
-    all_position_list=[]
+    
 
     def __all_position(self):
         if len(all_position_list)==0:
@@ -135,7 +138,7 @@ class board_class():
                 for j in range(1,5):
                     self.all_position_list.append(i+str(j))
         return self.all_position_lis
+    
     def test_print(self):
         print(__lion_next_position("A2","player1"))
 
-bo=board_class

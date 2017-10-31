@@ -123,7 +123,7 @@ se.game_connect();
 while True:
     if se.myturn_now():
         #print(se.send_command("board"))
-        se.send_command(post_send_localserver(se.send_command("board"),se.get_whoami()))
+        se.send_command(post_send_localserver(se.send_comand("board"),se.get_whoami()))
     #if True:
 
 
