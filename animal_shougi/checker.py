@@ -6,3 +6,5 @@ def board_comparison(board1,board2):
         return True    
     else:
         return False    
+
+
