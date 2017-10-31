@@ -28,6 +28,7 @@ class board_class():
         return self.board_dictionary
 
     def get_next_board(self,turn):
+
         pass
 
 
