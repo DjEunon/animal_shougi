@@ -28,6 +28,9 @@
     <Compile Include="checker.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="frame_class.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="post_client.py">
       <SubType>Code</SubType>
     </Compile>
