@@ -6,6 +6,8 @@ class board_class():
     board_origin=""
     board_dictionary={}
     all_position_list=[]
+    move_possible_list_normal=[]
+    move_possible_list_special=[]
     board_turn=""
     def __init__(self,board_origin,turn):
         if isinstance(board_origin,str):
@@ -26,6 +28,9 @@ class board_class():
                 self.board_dictionary[key]=val
         return None
     
+    def get_board_turn(self):
+        return self.board_turn
+
     def get_board_origin(self):
         return self.board_origin
 
@@ -50,6 +55,9 @@ class board_class():
             return True
         else:
             return False
+        pass
+
+    
     def exchange_format(self):
         pass
 
@@ -87,7 +95,6 @@ class board_class():
     
         position_list.sort()
         return position_list
-
 
     def __elephant_next_position(self,base_position):
         position_list=[]    
@@ -129,8 +136,6 @@ class board_class():
             position_list=__all_position()
         return position_list
 
-    
-
     def __all_position(self):
         if len(all_position_list)==0:
             temp_list=["A","B","C"]
@@ -139,6 +144,49 @@ class board_class():
                     self.all_position_list.append(i+str(j))
         return self.all_position_lis
     
+    def __animal_decision(self,piecestr):
+        fstr=self.__get_firststr(piecestr)
+        if fstr=="e":
+            return "elephant"
+        elif fstr=="g":
+            return "giraffe"
+        elif fstr=="l":
+            return "lion"
+        elif fstr=="c":
+            return "chick"
+        elif fstr=="h":
+            return "chicken"
+        return False
+
+#    def __animal_move_possible(self,position_list,now_position,piece_animal):
+#        pass
+
+    def __move_possible_normal(self):
+        for x in 'ABC':
+            for y in '1234':
+                if str(x)+str(y) not in self.board_dictionary:
+                    self.move_possible_normal_list.append(str(x)+str(y))
+        for x in 'ABC':
+            for y in '1234':
+                if str(x)+str(y) in self.board_dictionary:
+                    if self.__piece_turn_decision(self.board_dictionary[str(x)+str(y)])!=self.get_board_turn():
+                        self.move_possible_list_normal.append(str(x)+str(y))
+        return self.move_possible_list_normal
+
+
+    def __piece_turn_decision(self,piece):
+        if piece[-1:]=="1":
+            return "Player1"
+        else:
+            return "Player2"
+
+    def __get_firststr(self,fstr):
+        return fstr[0:1]
+
     def test_print(self):
-        print(__lion_next_position("A2","player1"))
+        print(self.__move_possible_normal())
+
+bo=board_class("A1 --, B1 --, C1 --, A2 l2, B2 e2, C2 --, A3 --, B3 --, C3 --, A4 --, B4 l1, C4 g1,D1 c1,D2 g1,E1 c2,E2 e2","Player1")
+bo.test_print()
+        #"A1 --, B1 --, C1 --, A2 l2, B2 e2, C2 --, A3 --, B3 --, C3 --, A4 --, B4 l1, C4 g1,D1 c1,D2 g1,E1 c2,E2 e2","Player1"
 
