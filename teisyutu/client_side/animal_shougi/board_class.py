@@ -26,8 +26,6 @@ class board_class():
             val=x[-2:]
             if key!='' and val!='':
                 self.board_dictionary[key]=val
-
-
         return None
     
     def get_board_turn(self):
@@ -62,43 +60,6 @@ class board_class():
     
     def exchange_format(self):
         pass
-
-    def __chick_next_position(self,base_position):
-        position_list=[]    
-        alf_list=[]
-        num_list=[]
-        base_position_alf=base_position[0:1]
-        base_position_num=int(base_position[-1:])
-        vector=""
-        if self.board_turn=="Player1":
-            vector=-1
-        elif self.board_turn=="Player2":
-            vector=1
-        else:
-            pass
-
-        if base_position_alf=="A":
-            if int(base_position_num+vector) > 0 and int(base_position_num+vector) < 5:
-                position_list.append("A"+str(int(base_position_num+vector)))
-
-        elif base_position_alf=="B":
-            if int(base_position_num+vector)>=1 and int(base_position_num+vector)<=4:
-                position_list.append("B"+str(int(base_position_num+vector)))
-
-        elif base_position_alf=="C":
-            if int(base_position_num+vector)>=1 and int(base_position_num+vector)<=4:
-                position_list.append("C"+str(int(base_position_num+vector)))
-        
-        elif base_position_alf=="D" or base_position=="E":
-            position_list=__all_position()
-            try:
-                position_list.remove(base_position)    
-            except :
-                pass
-        
-        return position_list
-                    
-
 
     def __lion_next_position(self,base_position):
         position_list=[]    
@@ -136,8 +97,7 @@ class board_class():
         return position_list
 
     def __elephant_next_position(self,base_position):
-        position_list=[]
-        position_temp_list=[]
+        position_list=[]    
         alf_list=[]
         num_list=[]
         base_position_alf=base_position[0:1]
@@ -156,11 +116,9 @@ class board_class():
                 num_list.append(int(base_position_num)+1)
             for i in alf_list:
                 for j in num_list:
-                     position_temp_list.append(i+str(j))
-            position_list.append(self.__list_compare(self.__move_possible_normal(),position_temp_list))
+                     position_list.append(i+str(j))
         elif base_position_alf=="D" or base_position=="E":
-            position_temp_list=__all_position()
-            position_list.append(self.__list_compare(self.__move_possible_special(),position_temp_list))
+            position_list=__all_position()
         try:
             position_list.remove(base_position)    
         except :
@@ -214,13 +172,7 @@ class board_class():
                     if self.__piece_turn_decision(self.board_dictionary[str(x)+str(y)])!=self.get_board_turn():
                         self.move_possible_list_normal.append(str(x)+str(y))
         return self.move_possible_list_normal
-    
-    def __move_possible_special(self):
-        for x in 'ABC':
-            for y in '1234':
-                if str(x)+str(y) not in self.board_dictionary:
-                    self.move_possible_normal_list.append(str(x)+str(y))    
-        return self.move_possible_list_special
+
 
     def __piece_turn_decision(self,piece):
         if piece[-1:]=="1":
@@ -230,16 +182,11 @@ class board_class():
 
     def __get_firststr(self,fstr):
         return fstr[0:1]
-    
-    def __list_compare(self,list1,list2):
-        list1_set=set(list1)
-        list2_set=set(list2)
-        return list(list1_set&list2_set)
 
     def test_print(self):
-        print(self.__elephant_next_position("A4"))
-        print(self.get_board_dictionary())
+        print(self.__move_possible_normal())
 
-bo=board_class("A1 g2, B1 l2, C1 e2, A2 --, B2 c2, C2 --, A3 --, B3 c1, C3 --, A4 e1, B4 l1, C4 g1","Player1")
+bo=board_class("A1 --, B1 --, C1 --, A2 l2, B2 e2, C2 --, A3 --, B3 --, C3 --, A4 --, B4 l1, C4 g1,D1 c1,D2 g1,E1 c2,E2 e2","Player1")
 bo.test_print()
-        #"A1 g2, B1 l2, C1 e2, A2 --, B2 c2, C2 --, A3 --, B3 c1, C3 --, A4 e1, B4 l1, C4 g1","Player1"
+        #"A1 --, B1 --, C1 --, A2 l2, B2 e2, C2 --, A3 --, B3 --, C3 --, A4 --, B4 l1, C4 g1,D1 c1,D2 g1,E1 c2,E2 e2","Player1"
+
