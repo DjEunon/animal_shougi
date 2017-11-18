@@ -9,7 +9,6 @@ class board_class():
     move_possible_list_normal=[]
     move_possible_list_special=[]
     board_turn=""
-    
     def __init__(self,board_origin,turn):
         if isinstance(board_origin,str):
             self.str2dic(board_origin)
@@ -61,15 +60,8 @@ class board_class():
         pass
 
     
-
     def exchange_format(self):
         pass
-    def __chicken_next_position(self,base_position):
-        position_list=[]
-        position_list.extend(self.__chick_next_position(base_position))
-        position_list.extend(self.__elephant_next_position(base_position))
-
-        return position_list
 
     def __chick_next_position(self,base_position):
         position_list=[]    
@@ -98,16 +90,15 @@ class board_class():
                 position_list.append("C"+str(int(base_position_num+vector)))
         
         elif base_position_alf=="D" or base_position=="E":
-            position_list=self.__move_possible_special()
-            ##奥に飛んでいかない処理
-            if self.get_board_turn=="Player1":
-                pass
+            position_list=self.__all_position()
             try:
                 position_list.remove(base_position)    
             except :
                 pass
         
         return position_list
+                    
+
 
     def __lion_next_position(self,base_position):
         position_list=[]    
@@ -135,7 +126,7 @@ class board_class():
                 for j in alf_list:
                     position_list.append(j+str(i))
         elif base_position_alf=="D" or base_position=="E":
-            position_list=move_possible_list_special()
+            position_list=__all_position()
             try:
                 position_list.remove(base_position)    
             except :
@@ -168,7 +159,7 @@ class board_class():
                      position_temp_list.append(i+str(j))
             position_list.append(self.__list_compare(self.__move_possible_normal(),position_temp_list))
         elif base_position_alf=="D" or base_position=="E":
-            position_temp_list=self.__move_possible_special()
+            position_temp_list=__all_position()
             position_list.append(self.__list_compare(self.__move_possible_special(),position_temp_list))
         try:
             position_list.remove(base_position)    
@@ -193,7 +184,7 @@ class board_class():
                     pass
             return position_list
         elif base_position_alf=="D" or base_position=="E":
-            position_list=__move_possible_special()
+            position_list=__all_position()
 
         return position_list
 
@@ -204,13 +195,7 @@ class board_class():
                 for j in range(1,5):
                     self.all_position_list.append(i+str(j))
         return self.all_position_list
-    def __all_position_possible(self):
-        position_list=[]
-        position_list.extend(self.__all_position())
-        
-        
-
-
+    
     def __animal_decision(self,piecestr):
         fstr=self.__get_firststr(piecestr)
         if fstr=="e":
@@ -244,12 +229,7 @@ class board_class():
         for x in 'ABC':
             for y in '1234':
                 if str(x)+str(y) not in self.board_dictionary:
-                    self.move_possible_normal_list.append(str(x)+str(y))
-        for x in 'ABC':
-            for y in '1234':
-                if str(x)+str(y) in self.board_dictionary:
-                    if self.board_dictionary[str(x)+str(y)]=="--":
-                        self.move_possible_list_special.append(str(x)+str(y))
+                    self.move_possible_normal_list.append(str(x)+str(y))    
         return self.move_possible_list_special
 
     def __piece_turn_decision(self,piece):
@@ -267,7 +247,8 @@ class board_class():
         return list(list1_set&list2_set)
 
     def test_print(self):
-        print(self.__chicken_next_position("D1"))
+        print(self.__elephant_next_position("A4"))
+        print(self.get_board_dictionary())
     
     def killing_you(self):
         tple_temp=self.board_dictionary.items()
@@ -340,5 +321,5 @@ class board_class():
             
 
 
-bo=board_class("A1 g2, B1 l2, C1 e2, A2 e1, B2 c2, C2 --, A3 --, B3 --, C3 --, A4 --, B4 l1, C4 g1 ,D1 c1","Player1")
-bo.test_print()
+#bo=board_class("A1 g2, B1 l2, C1 e2, A2 e1, B2 c2, C2 --, A3 --, B3 --, C3 --, A4 --, B4 l1, C4 g1 ,D1 c1","Player1")
+#bo.killing_you()
