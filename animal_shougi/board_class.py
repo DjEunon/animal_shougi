@@ -267,7 +267,7 @@ class board_class():
         return list(list1_set&list2_set)
 
     def test_print(self):
-        print(self.__chicken_next_position("D1"))
+        print(self.__chick_next_position("D1"))
     
     def killing_you(self):
         tple_temp=self.board_dictionary.items()
