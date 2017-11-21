@@ -16,11 +16,13 @@ class board_class():
         if isinstance(board_origin,str):
             self.str2dic(board_origin)
         elif isinstance(board_origin,dict):
-            self.board_dictionary=board_origin
+            self.board_dictionary=self.__dictionary_exchanger(board_origin)
         self.board_turn=turn
 
     def str2dic(self,string_board):
+        
         self.board_origin=string_board
+        dic_temp={}
         temp_list=[]
         temp_list=self.board_origin.split(",")
         for x in temp_list:
@@ -28,7 +30,9 @@ class board_class():
             key=x[0:2]
             val=x[-2:]
             if key!='' and val!='':
-                self.board_dictionary[key]=val
+                dic_temp[key]=val
+        self.board_dictionary=self.__dictionary_exchanger(dic_temp)
+        
 
 
         return None
@@ -201,20 +205,35 @@ class board_class():
         
         return position_list
     def __dictionary_exchanger(self,dic):
+        dictionary=copy.deepcopy(dic)
         d_list=[]
         e_list=[]
+        roop=0
         for x in 'DE':
             for y in '123456':
-                if x+y not in dic:
-                    dic[x+y]="--"
+                if x+y not in dictionary:
+                    dictionary[x+y]="--"
         for x in '123456':
-            if dic["D"+x]!="--":
-                d_list.append(dic["D"+x])
-                dic["D"+x]="--"
+            if dictionary["D"+x]!="--":
+                d_list.append(dictionary["D"+x])
+                dictionary["D"+x]="--"
         for x in '123456':
-            if dic["E"+x]!="--":
-                e_list.append(dic["E"+x])
-                dic["E"+x]="--"
+            if dictionary["E"+x]!="--":
+                e_list.append(dictionary["E"+x])
+                dictionary["E"+x]="--"
+        for x in 'DE':
+            for y in '123456':
+                del dictionary[x+y]
+        for x in d_list:
+              roop=roop+1
+              dictionary["D"+str(roop)]=x
+        roop=0
+        for x in e_list:
+            roop=roop+1
+            dictionary["D"+str(roop)]=x
+        return dictionary
+
+
 
         
 
@@ -382,6 +401,7 @@ class board_class():
 
     def test_print(self):
         self.get_next_board()
+        print("------------")
     def killing_you(self):
         tple_temp=self.board_dictionary.items()
         r_temp=""
@@ -453,5 +473,5 @@ class board_class():
             
 
 
-bo=board_class("A1 g2, B1 l2, C1 e2, A2 --, B2 c2, C2 --, A3 --, B3 c1, C3 --, A4 e1, B4 l1, C4 g1, D1 --,D2 --","Player2")
+bo=board_class("A1 g2, B1 l2, C1 e2, A2 --, B2 --, C2 --, A3 --, B3 c1, C3 --, A4 e1, B4 l1, C4 g1, D1 --,D2 c1","Player2")
 bo.test_print()
