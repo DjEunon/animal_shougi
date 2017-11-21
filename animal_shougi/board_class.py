@@ -1,5 +1,7 @@
 import re
+from copy import deepcopy
 import itertools
+import copy
 
 class board_class():
     """description of class"""
@@ -13,7 +15,7 @@ class board_class():
     def __init__(self,board_origin,turn):
         if isinstance(board_origin,str):
             self.str2dic(board_origin)
-        elif isinstance(board_origin,dictionary):
+        elif isinstance(board_origin,dict):
             self.board_dictionary=board_origin
         self.board_turn=turn
 
@@ -40,10 +42,88 @@ class board_class():
     def get_board_dictionary(self):
         return self.board_dictionary
 
-    def get_next_board(self,turn):
+    def get_next_board(self):
+        next_turn=""
+        if self.board_turn=="Player1":
+            next_turn=="Player2"
+        else:
+            next_turn=="Player1"
+        piece_temp=""
+        pice_er_temp=""
+        animal_temp=""
+        next_list=[]
+        compare_list=[]
+        dic_temp={}
+        list_temp=[]
+        for x in 'ABCDE':
+            for y in '123456':
 
-        pass
+                list_temp.clear()
+                dic_temp.clear()
+                compare_list.clear()
+                if str(x)+str(y) in self.board_dictionary:
+                    if self.get_board_turn()==self.__piece_turn_decision(self.board_dictionary[str(x)+str(y)]):
+                        piece_temp=self.board_dictionary[str(x)+str(y)]
+                        animal_temp=self.__animal_decision(piece_temp)
+                        if animal_temp=="lion":
+                            list_temp.extend(self.__lion_next_position(str(x)+str(y)))
+                        elif animal_temp=="giraffe":
+                            list_temp.extend(self.__giraffe_next_position(str(x)+str(y)))
+                        elif animal_temp=="chick":
+                            list_temp.extend(self.__chick_next_position(str(x)+str(y)))
+                        elif animal_temp=="chicken":
+                            list_temp.extend(self.__chicken_next_position(str(x)+str(y)))
+                        elif animal_temp=="elephant":
+                            list_temp.extend(self.__elephant_next_position(str(x)+str(y))) 
+                        elif animal_temp==False:
+                            pass
+                if str(x)+str(y) in self.board_dictionary:
+                    #print(self.board_dictionary[str(x)+str(y)])
+                    pass
+                if len(list_temp)>0:
+                    dic_temp=copy.deepcopy(self.board_dictionary)
+                    dic_temp[str(x)+str(y)]="--"
+                    compare_list.extend(self.__list_compare(self.__move_possible_special(),list_temp))
+                    if len(compare_list)>0:
+                        for z in compare_list:
+                            dic_temp.clear()
+                            dic_temp=copy.deepcopy(self.board_dictionary)
+                            dic_temp[str(x)+str(y)]="--"
+                            dic_temp[z]=piece_temp
+                            list_temp.remove(z)
+                            next_list.append(board_class(dic_temp,next_turn))
+                            print(dic_temp)
+                    print(list_temp)
+                    for z in list_temp:
+                        pice_er_temp=self.board_dictionary[z]
+                        dic_temp.clear()
+                        dic_temp=copy.deepcopy(self.board_dictionary)
+                        dic_temp[str(x)+str(y)]="--"
+                        dic_temp[z]=piece_temp
+                        al_temp=""
+                        if self.__piece_turn_decision(pice_er_temp)=="Player1":
+                            al_temp="E"
+                        else:
+                            al_temp="D"
+                        #sorting
+                        for a in '123456':
+                            if str(al_temp)+str(a) not in dic_temp:
+                                dic_temp[str(al_temp)+str(a)]=pice_er_temp[0:1]+self.piece_uragiri(pice_er_temp)[-1:]
+                                break
+                            if str(al_temp)+str(a) in dic_temp:
+                                if dic_temp[str(al_temp)+str(a)]=="--":
+                                     dic_temp[str(al_temp)+str(a)]=pice_er_temp[0:1]+self.piece_uragiri(pice_er_temp)[-1:]
+                                     break
+                        print(dic_temp)
+                                
 
+
+
+    def piece_uragiri(self,p):
+        if self.__piece_turn_decision(p)=="Player1":
+            return "Player2"
+        else:
+            return "Player1"
 
     def de_nanon(self,d):
         be=d[0:1]
@@ -72,7 +152,7 @@ class board_class():
         return position_list
 
     def __chick_next_position(self,base_position):
-        position_list=[]    
+        position_list=[]
         alf_list=[]
         num_list=[]
         base_position_alf=base_position[0:1]
@@ -97,20 +177,51 @@ class board_class():
             if int(base_position_num+vector)>=1 and int(base_position_num+vector)<=4:
                 position_list.append("C"+str(int(base_position_num+vector)))
         
-        elif base_position_alf=="D" or base_position=="E":
+        elif base_position_alf=="D" or base_position_alf=="E":
             position_list=self.__move_possible_special()
             ##奥に飛んでいかない処理
-            if self.get_board_turn=="Player1":
-                pass
+            if self.get_board_turn()=="Player1":
+                if "C1" in position_list:
+                    position_list.remove("C1")
+                if "A1" in position_list:
+                    position_list.remove("A1")
+                if "B1" in position_list:
+                    position_list.remove("B1")
+            elif self.get_board_turn()=="Player2":
+                if "C4" in position_list:
+                    position_list.remove("C4")
+                if "A4" in position_list:
+                    position_list.remove("A4")
+                if "B4" in position_list:
+                    position_list.remove("B4")
             try:
                 position_list.remove(base_position)    
             except :
                 pass
         
         return position_list
+    def __dictionary_exchanger(self,dic):
+        d_list=[]
+        e_list=[]
+        for x in 'DE':
+            for y in '123456':
+                if x+y not in dic:
+                    dic[x+y]="--"
+        for x in '123456':
+            if dic["D"+x]!="--":
+                d_list.append(dic["D"+x])
+                dic["D"+x]="--"
+        for x in '123456':
+            if dic["E"+x]!="--":
+                e_list.append(dic["E"+x])
+                dic["E"+x]="--"
+
+        
+
 
     def __lion_next_position(self,base_position):
-        position_list=[]    
+        position_list=[]
+        position_temp_list=[]
         alf_list=[]
         num_list=[]
         base_position_alf=base_position[0:1]
@@ -133,13 +244,14 @@ class board_class():
             num_list.append(base_position_num)
             for i in num_list:
                 for j in alf_list:
-                    position_list.append(j+str(i))
-        elif base_position_alf=="D" or base_position=="E":
+                    position_temp_list.append(j+str(i))
+            position_list.extend(self.__list_compare(self.__move_possible_normal(),position_temp_list))
+        elif base_position_alf=="D" or base_position_alf=="E":
             position_list=move_possible_list_special()
-            try:
-                position_list.remove(base_position)    
-            except :
-                pass
+        try:
+            position_list.remove(base_position)    
+        except :
+            pass
     
         position_list.sort()
         return position_list
@@ -167,7 +279,7 @@ class board_class():
                 for j in num_list:
                      position_temp_list.append(i+str(j))
             position_list.append(self.__list_compare(self.__move_possible_normal(),position_temp_list))
-        elif base_position_alf=="D" or base_position=="E":
+        elif base_position_alf=="D" or base_position_alf=="E":
             position_temp_list=self.__move_possible_special()
             position_list.append(self.__list_compare(self.__move_possible_special(),position_temp_list))
         try:
@@ -184,6 +296,7 @@ class board_class():
         num_list=[]
         base_position_alf=base_position[0:1]
         base_position_num=base_position[-1:]
+
         if base_position_alf=="A"or base_position_alf=="B" or base_position_alf=="C":
             position_list=self.__lion_next_position(base_position)
             for x in self.__elephant_next_position(base_position):
@@ -192,7 +305,7 @@ class board_class():
                 except:
                     pass
             return position_list
-        elif base_position_alf=="D" or base_position=="E":
+        elif base_position_alf=="D" or base_position_alf=="E":
             position_list=__move_possible_special()
 
         return position_list
@@ -238,7 +351,8 @@ class board_class():
                 if str(x)+str(y) in self.board_dictionary:
                     if self.__piece_turn_decision(self.board_dictionary[str(x)+str(y)])!=self.get_board_turn():
                         self.move_possible_list_normal.append(str(x)+str(y))
-        return self.move_possible_list_normal
+        self.move_possible_list_normal.extend(self.__move_possible_special())
+        return list(set(self.move_possible_list_normal))
     
     def __move_possible_special(self):
         for x in 'ABC':
@@ -250,7 +364,7 @@ class board_class():
                 if str(x)+str(y) in self.board_dictionary:
                     if self.board_dictionary[str(x)+str(y)]=="--":
                         self.move_possible_list_special.append(str(x)+str(y))
-        return self.move_possible_list_special
+        return list(set(self.move_possible_list_special))
 
     def __piece_turn_decision(self,piece):
         if piece[-1:]=="1":
@@ -267,8 +381,7 @@ class board_class():
         return list(list1_set&list2_set)
 
     def test_print(self):
-        print(self.__chicken_next_position("D1"))
-    
+        self.get_next_board()
     def killing_you(self):
         tple_temp=self.board_dictionary.items()
         r_temp=""
@@ -340,5 +453,5 @@ class board_class():
             
 
 
-bo=board_class("A1 g2, B1 l2, C1 e2, A2 e1, B2 c2, C2 --, A3 --, B3 --, C3 --, A4 --, B4 l1, C4 g1 ,D1 c1","Player1")
+bo=board_class("A1 g2, B1 l2, C1 e2, A2 --, B2 c2, C2 --, A3 --, B3 c1, C3 --, A4 e1, B4 l1, C4 g1, D1 --,D2 --","Player2")
 bo.test_print()
