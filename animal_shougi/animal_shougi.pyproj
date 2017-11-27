@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>e6b8baf7-d88a-425d-b944-461239f880cf</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>animal_shougi.py</StartupFile>
+    <StartupFile>board_class.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

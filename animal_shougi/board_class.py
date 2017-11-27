@@ -18,6 +18,9 @@ class board_class():
         elif isinstance(board_origin,dict):
             self.board_dictionary=self.__dictionary_exchanger(board_origin)
         self.board_turn=turn
+    def __repr__(self):
+        return self.get_board_dictionary()
+
 
     def str2dic(self,string_board):
         
@@ -36,6 +39,9 @@ class board_class():
 
 
         return None
+
+    def Judgement_desuno(self):
+        pass
     
     def get_board_turn(self):
         return self.board_turn
@@ -48,10 +54,10 @@ class board_class():
 
     def get_next_board(self):
         next_turn=""
-        if self.board_turn=="Player1":
-            next_turn=="Player2"
+        if str(self.get_board_turn())=="Player1":
+            next_turn="Player2"
         else:
-            next_turn=="Player1"
+            next_turn="Player1"
         piece_temp=""
         pice_er_temp=""
         animal_temp=""
@@ -96,8 +102,7 @@ class board_class():
                             dic_temp[z]=piece_temp
                             list_temp.remove(z)
                             next_list.append(board_class(dic_temp,next_turn))
-                            print(dic_temp)
-                    print(list_temp)
+                            #print(dic_temp)
                     for z in list_temp:
                         pice_er_temp=self.board_dictionary[z]
                         dic_temp.clear()
@@ -118,8 +123,12 @@ class board_class():
                                 if dic_temp[str(al_temp)+str(a)]=="--":
                                      dic_temp[str(al_temp)+str(a)]=pice_er_temp[0:1]+self.piece_uragiri(pice_er_temp)[-1:]
                                      break
-                        print(dic_temp)
-                                
+                        next_list.append(board_class(dic_temp,next_turn))
+                        #print(dic_temp)
+
+        return next_list
+                        
+                        
 
 
 
@@ -204,6 +213,7 @@ class board_class():
                 pass
         
         return position_list
+
     def __dictionary_exchanger(self,dic):
         dictionary=copy.deepcopy(dic)
         d_list=[]
@@ -230,7 +240,7 @@ class board_class():
         roop=0
         for x in e_list:
             roop=roop+1
-            dictionary["D"+str(roop)]=x
+            dictionary["E"+str(roop)]=x
         return dictionary
 
 
@@ -266,7 +276,7 @@ class board_class():
                     position_temp_list.append(j+str(i))
             position_list.extend(self.__list_compare(self.__move_possible_normal(),position_temp_list))
         elif base_position_alf=="D" or base_position_alf=="E":
-            position_list=move_possible_list_special()
+            position_list=self.__move_possible_special()
         try:
             position_list.remove(base_position)    
         except :
@@ -325,7 +335,7 @@ class board_class():
                     pass
             return position_list
         elif base_position_alf=="D" or base_position_alf=="E":
-            position_list=__move_possible_special()
+            position_list=self.__move_possible_special()
 
         return position_list
 
@@ -401,7 +411,6 @@ class board_class():
 
     def test_print(self):
         self.get_next_board()
-        print("------------")
     def killing_you(self):
         tple_temp=self.board_dictionary.items()
         r_temp=""
@@ -473,5 +482,37 @@ class board_class():
             
 
 
-bo=board_class("A1 g2, B1 l2, C1 e2, A2 --, B2 --, C2 --, A3 --, B3 c1, C3 --, A4 e1, B4 l1, C4 g1, D1 --,D2 c1","Player2")
-bo.test_print()
+bo=board_class("A1 g2, B1 l2, C1 e2, A2 --, B2 c2, C2 --, A3 --, B3 c1, C3 --, A4 e1, B4 l1, C4 g1,","Player2")
+tree_list=[]
+
+ran=2
+tree_list.append(bo)
+
+tree_list.append(bo.get_next_board())
+
+def tree_re(bo,num):
+    if num==1:
+        return None
+    return_list=[]
+    temp_list=[]
+    return_list.append(bo)
+    for x in bo.get_next_board():
+        temp_list.append(tree_re(x,num-1))
+    return_list.append(temp_list)
+    return return_list
+
+
+print(tree_re(bo,4))
+#for x in tree_re(bo,4)[1]:
+#    for y in x[0]:
+#        print(y.get_board_dictionary())
+
+
+
+
+
+#for x in bo.get_next_board():
+#    print(x.get_board_dictionary())
+#    for z in x.get_next_board():
+#        print("-",end="")
+#        print(z.get_board_dictionary())
